@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "myapp-chart.fullname" . }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8085"
+    promtail.io/enabled: "true"
+  labels:
+    app: {{ include "myapp-chart.name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "myapp-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "myapp-chart.name" . }}
+    spec:
+      containers:
+        - name: dotnet-app
+          image: {{ .Values.dotnet.image }}
+          ports:
+            - containerPort: {{ .Values.dotnet.port }}
