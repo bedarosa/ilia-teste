@@ -1,3 +1,4 @@
+using Application;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Repository.Implementations;
@@ -5,10 +6,11 @@ using Repository.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddDbContext<IliaContext>(opt => opt.UseInMemoryDatabase("IliaDatabase"));
-//builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 builder.Services.AddRepository();
+builder.Services.AddServices();
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

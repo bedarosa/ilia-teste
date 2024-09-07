@@ -1,8 +1,10 @@
-﻿using Domain;
+﻿using Application.DTOs;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Repository.Implementations;
 using Repository.Interface;
+using Services.Interface;
 using System.Security.AccessControl;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,75 +15,82 @@ namespace Api
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductRepository _productRepository;
-        public ProductController(IProductRepository productRepository)
+        private readonly IProductService _productService;
+
+        // Injeta o serviço de produto no construtor
+        public ProductController(IProductService productService)
         {
-            _productRepository = productRepository;
+            _productService = productService;
         }
 
+        // GET: api/Product
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> Get()
+        public async Task<IActionResult> GetAllProducts()
         {
-            var products = _productRepository.GetAll();
-            return Ok(products);
+            var products = await _productService.GetAllProductsAsync();
+            return Ok(products); // Retorna a lista de produtos com status 200
         }
 
-        // GET api/Product/5
+        // GET: api/Product/5
         [HttpGet("{id}")]
-        public ActionResult<Product> Get(int id)
+        public async Task<IActionResult> GetProductById(int id)
         {
-            var product = _productRepository.GetById(id);
+            var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound(); // Retorna status 404 se o produto não for encontrado
             }
-            return Ok(product);
+            return Ok(product); // Retorna o produto com status 200
         }
 
-        // POST api/Product
+        // POST: api/Product
         [HttpPost]
-        public ActionResult Post([FromBody] Product produto)
+        public async Task<IActionResult> AddProduct([FromBody] CreateProductDTO createProductDTO)
         {
-            if (produto == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Product is null.");
+                return BadRequest(ModelState); // Retorna status 400 se o modelo não for válido
             }
 
-            _productRepository.Add(produto);
-            return CreatedAtAction(nameof(Get), new { id = produto.Id }, produto);
+            await _productService.AddProductAsync(createProductDTO);
+
+            // O ID do produto pode não estar disponível imediatamente após a criação,
+            // então o CreatedAtAction pode ser ajustado de acordo com sua implementação.
+            // Por exemplo, você pode retornar um status 201 com uma mensagem de sucesso.
+            return StatusCode(201); // Retorna status 201 após a criação
         }
 
-        // PUT api/Product/5
+        // PUT: api/Product/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Product produto)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDTO updateProductDTO)
         {
-            if (produto == null || produto.Id != id)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Product is null or ID mismatch.");
+                return BadRequest(ModelState); // Retorna status 400 se o modelo não for válido
             }
 
-            var existingProduct = _productRepository.GetById(id);
+            var existingProduct = await _productService.GetProductByIdAsync(id);
             if (existingProduct == null)
             {
-                return NotFound();
+                return NotFound(); // Retorna status 404 se o produto não for encontrado
             }
 
-            _productRepository.Update(produto);
-            return NoContent();
+            await _productService.UpdateProductAsync(id, updateProductDTO);
+            return NoContent(); // Retorna status 204 indicando sucesso sem conteúdo
         }
 
-        // DELETE api/Product/5
+        // DELETE: api/Product/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = _productRepository.GetById(id);
-            if (product == null)
+            var existingProduct = await _productService.GetProductByIdAsync(id);
+            if (existingProduct == null)
             {
-                return NotFound();
+                return NotFound(); // Retorna status 404 se o produto não for encontrado
             }
 
-            _productRepository.Delete(id);
-            return NoContent();
+            await _productService.DeleteProductAsync(id);
+            return NoContent(); // Retorna status 204 após exclusão
         }
     }
 }

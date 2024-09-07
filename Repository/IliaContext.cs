@@ -14,7 +14,7 @@ namespace Repository
         public IliaContext(DbContextOptions<IliaContext> options)
           : base(options)
         { }
-        public DbSet<Product> Produtos { get; set; }
+        public DbSet<Product> Products { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
