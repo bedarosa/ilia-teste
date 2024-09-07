@@ -13,7 +13,6 @@ RUN dotnet restore src/api/Api.csproj
 COPY . .
 
 WORKDIR /src
-RUN ls -lrt Api
 RUN dotnet build Api/Api.csproj -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
