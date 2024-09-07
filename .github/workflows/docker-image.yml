@@ -24,13 +24,13 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t my-image:latest .
+        docker build -t ilia-docker:latest .
 
     - name: Tag Docker image
       run: |
-        docker tag my-image:latest my-image:${{ github.sha }}
+        docker tag ilia-docker:latest my-image:${{ github.sha }}
 
     - name: Push Docker image
       run: |
-        docker push my-image:latest
-        docker push my-image:${{ github.sha }}
+        docker push ilia-docker:latest
+        docker push ilia-docker:${{ github.sha }}
