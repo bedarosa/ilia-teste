@@ -1,5 +1,4 @@
-
-# Ília Test
+:desert_island: # Ília Test
 
 Challenge of the selection process for the DevOps vacancy at Ília Digital
 
@@ -91,3 +90,13 @@ terraform plan
 ```
 
 to test the script
+
+## Helm
+
+You can enter in myapp-chart folder and run:
+
+```bash
+helm install myapp-chart ./ -f values.yaml
+```
+
+the containers will start running and you can send requests to the end-points on `http://localhost:8080`
