@@ -20,13 +20,13 @@ docker pull bernardopinheiro/ilia-docker:latest
 
 #### Get All Products
 
-```http
+```bash
   GET /api/Product
 ```
 
 #### Get a Product
 
-```http
+```bash
   GET /api/Product/${id}
 ```
 
@@ -37,7 +37,7 @@ docker pull bernardopinheiro/ilia-docker:latest
 
 #### Create a Product
 
-```http
+```bash
   POST /api/Product
 ```
 
@@ -49,7 +49,7 @@ docker pull bernardopinheiro/ilia-docker:latest
 
 #### Update a Product
 
-```http
+```bash
   PUT /api/Product/${id}
 ```
 
@@ -62,7 +62,7 @@ docker pull bernardopinheiro/ilia-docker:latest
 
 #### Delete a Product
 
-```http
+```bash
   DELETE /api/Product/${id}
 ```
 
