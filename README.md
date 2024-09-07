@@ -69,3 +69,25 @@ docker pull bernardopinheiro/ilia-docker:latest
 | Parameter   | Type       | Description                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `id`      | `int` | **Required**. The ID of the item |
+
+## Observability
+
+The `install-observability.sh` run a series of commands to create a observability stack with Grafana, Zabbix and Prometheus
+
+```bash
+chmod +x install-observability.sh
+./install-observability.sh
+```
+
+## Terraform
+
+This terraform module create a k8s cluster and the necessary VPC in AWS.
+
+You can run:
+
+```bash
+terraform init
+terraform plan
+```
+
+to test the script
