@@ -1,5 +1,4 @@
-:desert_island: 
-# Ília Test
+# Ília Test :desert_island: 
 
 Challenge of the selection process for the DevOps vacancy at Ília Digital
 
