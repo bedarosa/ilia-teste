@@ -101,3 +101,9 @@ helm install myapp-chart ./ -f values.yaml
 ```
 
 the containers will start running and you can send requests to the end-points on `http://localhost:8080`
+
+To stop the k8s container run:
+
+```bash
+helm uninstall myapp-chart
+```
