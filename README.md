@@ -11,6 +11,7 @@ This project has a Workflow that, every time a commit is made to the `master` br
 
 ```bash
 docker pull bernardopinheiro/ilia-docker:latest
+docker run -d -p 8080:8080 bernardopinheiro/ilia-docker:latest
 ```
 
 
